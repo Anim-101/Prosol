@@ -1,5 +1,5 @@
 /* Problem Id : 10696
-   Proble,    : F91
+   Problem    : F91
 */
 #include<stdio.h>
 int main ()
