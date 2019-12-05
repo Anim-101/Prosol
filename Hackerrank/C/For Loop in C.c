@@ -57,7 +57,7 @@ int main()
         }
         else
         {
-                        if(a == 1)
+            if(a == 1)
             {
                 printf("one\n");
             }
