@@ -1,6 +1,5 @@
 #include<stdio.h>
 
-
 void calculate_the_maximum(int n, int k)
 {
     int maxAnd = 0, maxOr = 0, maxXor = 0;
