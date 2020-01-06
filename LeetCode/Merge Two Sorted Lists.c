@@ -4,11 +4,11 @@
 struct ListNode
 {
     int val;
-    struct Node *next;
+    struct ListNode *next;
 }
 *firstNode = NULL, *secondNode = NULL;
 
-void displayNodes(struct ListNode *pointNode)
+void Display(struct ListNode *pointNode)
 {
     while(pointNode != NULL)
     {
@@ -18,11 +18,11 @@ void displayNodes(struct ListNode *pointNode)
     }
 }
 
-void createNodesFirst(int array[], int numberOfNodes)
+void createNodesFirst(int array [], int numberOfNodes)
 {
     struct ListNode *tempNode, *lastNode;
 
-    firstNode = (struct ListNode *) malloc(sizeof(struct ListNode));
+    firstNode = (struct Node *) malloc(sizeof(struct ListNode));
 
     firstNode->val = array[0];
 
@@ -44,7 +44,7 @@ void createNodesFirst(int array[], int numberOfNodes)
     }
 }
 
-void createNodesSecond(int array[], int numberOfNodes)
+void createNodesSecond(int array [], int numberOfNodes)
 {
     struct ListNode *tempNode, *lastNode;
 
@@ -70,149 +70,102 @@ void createNodesSecond(int array[], int numberOfNodes)
     }
 }
 
-struct Node * mergeTwoLists(struct ListNode *l1, struct ListNode *l2)
+struct ListNode *mergeTwoLists(struct ListNode *l1, struct ListNode *l2)
 {
-    struct ListNode *lastNode, *thirdNode;
-
-    lastNode = NULL;
-
-    thirdNode = NULL;
+    struct ListNode *tempNode = NULL, *lastNode = NULL;
 
     if(l1 == NULL && l2 == NULL)
     {
-        thirdNode = NULL;
+        return NULL;
+    }
+    else if(l1 == NULL && l2 != NULL)
+    {
+        return l2;
+    }
+    else if(l1 != NULL && l2 == NULL)
+    {
+        return l1;
+    }
+
+    if(l1->val < l2->val)
+    {
+        tempNode = lastNode = l1;
+
+        l1 = l1->next;
+
+        tempNode->next = NULL;
     }
     else
     {
-        if(l1 != NULL & l2 != NULL)
+        tempNode = lastNode = l2;
+
+        l2 = l2->next;
+
+        tempNode->next = NULL;
+    }
+
+    while(l1 && l2)
+    {
+        if(l1->val < l2->val)
         {
-            if(l1->val < l2->val)
-            {
-                thirdNode = lastNode = l1;
+            lastNode->next = l1;
 
-                l1 = l1->next;
+            lastNode = l1;
 
-                thirdNode->next = NULL;
-            }
-            else
-            {
-                thirdNode = lastNode = l2;
+            l1 = l1->next;
 
-                l2 = l2->next;
-
-                thirdNode->next = NULL;
-            }
-
-            while(l1 && l2)
-            {
-                if(l1->val < l2->val)
-                {
-                    lastNode->next = l1;
-
-                    lastNode = l1;
-
-                    l1 = l1->next;
-
-                    lastNode->next = NULL;
-                }
-                else
-                {
-                    lastNode->next = l2;
-
-                    lastNode = l2;
-
-                    l2 = l2->next;
-
-                    lastNode->next = NULL;
-                }
-            }
-
-            if(l1)
-            {
-                lastNode->next = l1;
-            }
-
-            if(l2)
-            {
-                lastNode->next = l2;
-            }
+            lastNode->next = NULL;
         }
         else
         {
-            if(l1 == NULL && l2 != NULL)
-            {
-                thirdNode = lastNode = l2;
+            lastNode->next = l2;
 
-                l2 = l2->next;
+            lastNode = l2;
 
-                thirdNode->next = NULL;
+            l2 = l2->next;
 
-                while(l2)
-                {
-                    lastNode->next = l2;
-
-                    lastNode = l2;
-
-                    l2 = l2->next;
-
-                    lastNode->next = NULL;
-                }
-            }
-            else if(l1 != NULL && l2 == NULL)
-            {
-
-                thirdNode = lastNode = l1;
-
-                l1 = l1->next;
-
-                thirdNode->next = NULL;
-
-                while(l1)
-                {
-                    lastNode->next = l1;
-
-                    lastNode = l1;
-
-                    l1 = l1->next;
-
-                    lastNode->next = NULL;
-                }
-            }
+            lastNode->next = NULL;
         }
     }
 
-    return thirdNode;
+    if(l1)
+    {
+        lastNode->next = l1;
+    }
+
+    if(l2)
+    {
+        lastNode->next = l2;
+    }
+
+    return tempNode;
 }
 
 int main()
 {
     int arrayOne [] = {1, 2, 4};
 
+    int arrayTwo [] = {1, 3, 4};
+
+    printf("\nDisplaying First Linked List: ");
+
     createNodesFirst(arrayOne, 3);
 
-    printf("\nDisplaying First List: ");
-
-    displayNodes(firstNode);
+    Display(firstNode);
 
     printf("\n");
 
-    int arrayTwo [] = {1, 3, 4};
+    printf("\nDisplaying Second Linked List: ");
 
     createNodesSecond(arrayTwo, 3);
 
-    printf("\nDisplaying Second List: ");
-
-    displayNodes(secondNode);
+    Display(secondNode);
 
     printf("\n");
 
-    struct Node *printNodes;
+    printf("\nDisplaying Linked List After Merging Two Sorted Linked List: ");
 
-    printNodes = mergeTwoLists(firstNode, secondNode);
-
-    printf("\nDisplaying Merged List: ");
-
-    displayNodes(printNodes);
+    Display(mergeTwoLists(firstNode, secondNode));
 
     printf("\n");
 
